@@ -47,21 +47,6 @@ public class Movil
 	}
 	
 	@Override
-	public String toString() {
-		String texto;
-		
-		texto = "MEMORIA: " + memoria + "\n"
-				+ "MARCA: "+ marca +"\n"
-				+ "TAMAÑO PANTALLA: "+pantalla+ "\n";
-		
-		return texto;
-	}
-	public void aumentaMemoria() 
-	{
-		memoria++;
-	}
-	
-	@Override
 	public boolean equals(Object objetoCompara)
 	{
 		Movil movilCompara = (Movil )objetoCompara;
