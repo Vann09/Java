@@ -27,7 +27,7 @@ public class RepoAlumno extends BaseDatos implements ICRUD <Alumno,Integer>
 	public ArrayList<Alumno> listar() throws Exception {
 		
 		Alumno al;
-		//ArrayList<Alumno> datos = new ArrayList<Alumno>();
+		ArrayList<Alumno> datos = new ArrayList<Alumno>();
 		super.conectar();
 		
 		this.sql = "SELECT matricula, nombre, apellido FROM Alumno";
@@ -37,20 +37,38 @@ public class RepoAlumno extends BaseDatos implements ICRUD <Alumno,Integer>
 		while (rs.next())
 		{
 			al = new Alumno(rs.getInt("matricula"),rs.getString("apellido"),rs.getString("nombre"));
-			System.out.println(al.toString());
-			//datos.add(al);
+			
+			datos.add(al);
 		}
 		
 		super.desconectar();
 		
-		return null;
-		//return datos;
+		return datos;
 	}
 
 	@Override
-	public Alumno leer(Integer pk) {
+	public Alumno leer(Integer pk) throws Exception {
+		Alumno al;
 		
-		return null;
+		super.conectar();
+		this.sql = "SELECT matricula, nombre, apellido FROM Alumno WHERE matricula = ?";
+		this.ps = super.conexion.prepareStatement(sql);
+		this.ps.setInt(1, pk);
+				
+		this.rs = this.ps.executeQuery();
+		
+		if( this.rs.next() == true ) 
+		{
+			al = new Alumno( rs.getInt("matricula"), rs.getString("apellido"), rs.getString("nombre") );
+		}
+		else
+		{
+			al = null;
+		}
+		
+		super.desconectar();
+		
+		return al;
 	}
 
 	@Override
@@ -75,16 +93,57 @@ public class RepoAlumno extends BaseDatos implements ICRUD <Alumno,Integer>
 	}
 
 	@Override
-	public void editar(Integer pk, Alumno modelo) {
+	public void editar(Integer pk, Alumno modelo) throws Exception {
+		int cantidad;
 		
+		super.conectar();
+		
+		this.sql = "UPDATE Alumno SET matricula=?, nombre=?, apellido=? WHERE matricula =?";
+		this.ps = super.conexion.prepareStatement(sql);
+		
+		this.ps.setInt(1, modelo.matricula);
+		this.ps.setString(2, modelo.nombre);
+		this.ps.setString(3, modelo.apellido);
+		this.ps.setInt(4, pk);
+		
+		cantidad = this.ps.executeUpdate();
+		
+		if(cantidad==1)
+		{
+			System.out.println("Modificado.");
+		}
+		else 
+		{
+			System.out.println("No se ha modificado, la fila no existe.");
+		}
+		
+		super.desconectar();
 		
 	}
 
 	@Override
-	public void elimar(Integer pk) throws Exception {
-		conectar();
-		this.sql="";
+	public void eliminar(Integer pk) throws Exception {
+		int cantidad;
 		
+		super.conectar();
+		
+		this.sql = "DELETE FROM Alumno WHERE matricula = ?";
+		this.ps = super.conexion.prepareStatement(sql);
+		
+		this.ps.setInt(1, pk);
+		
+		cantidad = this.ps.executeUpdate();
+		
+		if(cantidad==1)
+		{
+			System.out.println("Eliminado.");
+		}
+		else 
+		{
+			System.out.println("No se ha eliminado, la fila no existe.");
+		}
+		
+		super.desconectar();
 	}
 
 }

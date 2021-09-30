@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public interface ICRUD <MODELO, PK> 
 {
 	ArrayList<MODELO> listar() throws Exception;
-	MODELO leer(PK pk);
+	MODELO leer(PK pk) throws Exception;
 	
 	void nuevo(MODELO modelo)throws Exception;
-	void editar (PK pk, MODELO modelo);
+	void editar (PK pk, MODELO modelo) throws Exception;
 	
-	void elimar (PK pk) throws Exception;
+	void eliminar (PK pk) throws Exception;
 }
