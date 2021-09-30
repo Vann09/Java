@@ -10,7 +10,7 @@ public class Inicio {
 
 	public static void main(String[] args) 
 	{
-		RepoAlumno repo = new RepoAlumno("185.224.138.154", "u581554845_alumno", "Root1234", "u581554845_indra");
+		RepoAlumno repo = new RepoAlumno(/*servidor, usuario, password, bbdd*/);
 		Alumno alumno = new Alumno();
 		int matricula;
 		ArrayList<Alumno> datos;
